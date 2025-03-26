@@ -27,4 +27,4 @@ jobs:
       - name: Publish to Expo
         run: npx expo publish
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.GitHub_CI_Token }}
