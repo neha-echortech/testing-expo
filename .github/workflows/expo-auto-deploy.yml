@@ -22,6 +22,12 @@ jobs:
         run: npm install
 
       - name: Publish to Expo
-        run: npx expo publish
+        run: npx expo export:web --output web-build
         env:
           EXPO_TOKEN: ${{ secrets.GitHub CI Token }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web-build      
