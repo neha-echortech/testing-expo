@@ -27,13 +27,13 @@ jobs:
       - name: Build APK
         run: npx eas build --platform android --profile preview --non-interactive
         env:
-          EXPO_TOKEN: ${{ secrets.GITHUB_CI_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       # Step 5: Download the APK artifact from EAS
       - name: Download APK
         run: npx eas build:download --latest --path ./app.apk
         env:
-          EXPO_TOKEN: ${{ secrets.GITHUB_CI_TOKEN }}
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       # Step 6: Upload the APK to GitHub Actions as an artifact
       - name: Upload APK Artifact
