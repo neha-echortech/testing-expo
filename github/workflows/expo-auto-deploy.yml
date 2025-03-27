@@ -1,36 +1,43 @@
-name: Expo Auto Deployment
+name: Build Android APK (Expo)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ]  # or your chosen branch
 
 jobs:
-  deploy:
+  build-android-apk:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout your repository
+      # Step 1: Check out your repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js (using version 16)
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '16'  # or a version compatible with Expo/EAS
 
-      # Step 3: Install project dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      - name: Publish to Expo
-        run: npx expo publish
+      # Step 4: Build APK using EAS
+      - name: Build APK
+        run: npx eas build --platform android --profile preview --non-interactive
         env:
-          EXPO_TOKEN: ${{ secrets.GitHub_CI_Token }}
+          EXPO_TOKEN: ${{ secrets.GITHUB_CI_TOKEN }}
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      # Step 5: Download the APK artifact from EAS
+      - name: Download APK
+        run: npx eas build:download --latest --path ./app.apk
+        env:
+          EXPO_TOKEN: ${{ secrets.GITHUB_CI_TOKEN }}
+
+      # Step 6: Upload the APK to GitHub Actions as an artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
         with:
-          EXPO_TOKEN: ${{ secrets.GitHub_CI_Token }}
-
-          publish_dir: ./web-build
+          name: expo-android-apk
+          path: ./app.apk
