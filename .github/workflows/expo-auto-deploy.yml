@@ -1,33 +1,36 @@
-
 name: Expo Auto Deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js (using version 16)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
 
+      # Step 3: Install project dependencies
       - name: Install dependencies
         run: npm install
 
       - name: Publish to Expo
-        run: npx expo export:web --output web-build
+        run: npx expo publish
         env:
           EXPO_TOKEN: ${{ secrets.GitHub CI Token }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./web-build      
+          EXPO_TOKEN: ${{ secrets.GitHub CI Token }}
+
+          publish_dir: ./web-build
