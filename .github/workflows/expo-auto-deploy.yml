@@ -31,13 +31,16 @@ jobs:
 
       # Step 5: Download the APK artifact from EAS
       - name: Download APK
-        run: npx eas build:download --latest --path ./app.apk
+        run: npx eas build:download --latest --path ./build/app.apk
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Debug - List files
+        run: ls -la    
 
       # Step 6: Upload the APK to GitHub Actions as an artifact
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v3
         with:
           name: expo-android-apk
-          path: ./app.apk
+          path: ./build/app.apk
