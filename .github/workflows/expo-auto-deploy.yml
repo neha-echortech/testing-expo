@@ -2,7 +2,7 @@ name: Build Android APK (Expo)
 
 on:
   push:
-    branches: [ main ]  # or your chosen branch
+    branches: [ master ]  # or your chosen branch
 
 jobs:
   build-android-apk:
