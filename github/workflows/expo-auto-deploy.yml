@@ -25,7 +25,7 @@ jobs:
 
       # Step 4: Build APK using EAS
       - name: Build APK
-        run: npx eas build --platform android --profile preview --non-interactive
+        run: npx eas build --platform android --profile preview 
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
